@@ -1,0 +1,17 @@
+{
+  "completed_files": [
+    "/sdcard/Download/ChenxiLiveOverflow_Project/创建一个Android悬浮窗应用App/settings.gradle.kts",
+    "/sdcard/Download/ChenxiLiveOverflow_Project/创建一个Android悬浮窗应用App/build.gradle.kts",
+    "/sdcard/Download/ChenxiLiveOverflow_Project/创建一个Android悬浮窗应用App/gradle/libs.versions.toml",
+    "/sdcard/Download/ChenxiLiveOverflow_Project/创建一个Android悬浮窗应用App/app/build.gradle.kts",
+    "/sdcard/Download/ChenxiLiveOverflow_Project/创建一个Android悬浮窗应用App/app/src/main/AndroidManifest.xml",
+    "/sdcard/Download/ChenxiLiveOverflow_Project/创建一个Android悬浮窗应用App/app/src/main/java/com/operit/androidapp/MainActivity.kt",
+    "/sdcard/Download/ChenxiLiveOverflow_Project/创建一个Android悬浮窗应用App/app/src/main/java/com/operit/androidapp/ui/theme/Color.kt",
+    "/sdcard/Download/ChenxiLiveOverflow_Project/创建一个Android悬浮窗应用App/app/src/main/java/com/operit/androidapp/ui/theme/Theme.kt",
+    "/sdcard/Download/ChenxiLiveOverflow_Project/创建一个Android悬浮窗应用App/app/src/main/java/com/operit/androidapp/ui/theme/Type.kt",
+    "/sdcard/Download/ChenxiLiveOverflow_Project/创建一个Android悬浮窗应用App/app/src/main/res/values/strings.xml",
+    "/sdcard/Download/ChenxiLiveOverflow_Project/创建一个Android悬浮窗应用App/app/src/main/res/values/themes.xml"
+  ],
+  "last_file": "/sdcard/Download/ChenxiLiveOverflow_Project/创建一个Android悬浮窗应用App/app/src/main/res/values/themes.xml",
+  "status": "completed"
+}

@@ -1,0 +1,37 @@
+{
+  "app_name": "创建一个Android悬浮窗应用App",
+  "package_name": "com.operit.androidapp",
+  "project_dir": "/sdcard/Download/ChenxiLiveOverflow_Project/创建一个Android悬浮窗应用App",
+  "requirement": "创建一个 Android 悬浮窗应用（Chenxi Live Overflow 桌宠监控版）。要求包含两大部分核心功能：\n1. 悬浮窗：基本悬浮显示。\n2. 前台应用督学监控与通信：后台运行 Service，使用 UsageStatsManager 轮询监控当前前台应用包名；连接 Supabase，将获取到的前台包名作为状态定时上报（心跳同步）。要求：代码尽量精简。",
+  "created_at": "2026-08-08T12:40:48.578Z",
+  "architecture": "MVVM",
+  "min_sdk": 24,
+  "target_sdk": 34,
+  "language": "Kotlin",
+  "build_system": "Gradle",
+  "template": "internal",
+  "ui_framework": "Jetpack Compose",
+  "dependencies": [
+    "androidx.core:core-ktx:1.12.0",
+    "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0",
+    "androidx.activity:activity-compose:1.8.2",
+    "androidx.compose.ui:ui:1.6.0",
+    "androidx.compose.material3:material3:1.2.0"
+  ],
+  "ui_layout": {
+    "main_screen": "Scaffold with TopAppBar",
+    "navigation": "Single Activity",
+    "theme": "Material3 Dynamic Color"
+  },
+  "file_plan": [
+    "settings.gradle.kts",
+    "build.gradle.kts",
+    "app/build.gradle.kts",
+    "app/src/main/AndroidManifest.xml",
+    "app/src/main/java/com/operit/androidapp/MainActivity.kt",
+    "app/src/main/java/com/operit/androidapp/ui/theme/Theme.kt",
+    "app/src/main/java/com/operit/androidapp/ui/theme/Color.kt",
+    "app/src/main/res/values/strings.xml"
+  ],
+  "status": "planned"
+}
