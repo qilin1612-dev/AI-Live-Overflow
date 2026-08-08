@@ -18,13 +18,13 @@ jobs:
         cache: gradle
 
     - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      run: cd 创建一个Android悬浮窗应用App && chmod +x gradlew
 
     - name: Build with Gradle
-      run: ./gradlew assembleDebug
+      run: cd 创建一个Android悬浮窗应用App && ./gradlew assembleDebug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: 创建一个Android悬浮窗应用App/app/build/outputs/apk/debug/app-debug.apk
