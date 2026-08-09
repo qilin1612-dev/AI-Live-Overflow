@@ -69,7 +69,7 @@ class SupabaseManager(private val context: Context) {
                 response.body?.string()?.let {
                     try {
                         val array = JSONArray(it)
-                        if (array.length() > 0) Log.d("Supabase", "Command: ${array.getJSONObject(0).optString(\"speech_bubble\", \"\")}")
+                        if (array.length() > 0) Log.d("Supabase", "Command: ${array.getJSONObject(0).optString("speech_bubble", "")}")
                     } catch (e: Exception) {}
                 }
                 response.close()
