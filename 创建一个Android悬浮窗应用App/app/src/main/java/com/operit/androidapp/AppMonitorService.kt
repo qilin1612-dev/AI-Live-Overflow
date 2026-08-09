@@ -1,6 +1,7 @@
 package com.operit.androidapp
 
 import android.app.Notification
+import com.example.chenxidesktoppet.SupabaseManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
