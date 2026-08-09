@@ -12,9 +12,9 @@ import android.os.IBinder
 import android.os.Looper
 import android.view.Gravity
 import android.view.MotionEvent
+import android.view.View
 import android.view.WindowManager
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.widget.TextView
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -26,7 +26,7 @@ import kotlin.concurrent.thread
 
 class AppMonitorService : Service() {
     private lateinit var windowManager: WindowManager
-    private lateinit var webView: WebView
+    private lateinit var floatingView: TextView
     private val handler = Handler(Looper.getMainLooper())
     private var isRunning = true
 
@@ -43,13 +43,13 @@ class AppMonitorService : Service() {
     private fun startForegroundService() {
         val channelId = "chenxi_pet_channel"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId, "辰夕陪伴服务", NotificationManager.IMPORTANCE_LOW)
+            val channel = NotificationChannel(channelId, "辰夕监督桌宠", NotificationManager.IMPORTANCE_LOW)
             getSystemService(NotificationManager::class.java)?.createNotificationChannel(channel)
         }
         val notification = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification.Builder(this, channelId).setContentTitle("辰夕正在后台看着你").setSmallIcon(android.R.drawable.ic_dialog_info).build()
+            Notification.Builder(this, channelId).setContentTitle("桌宠后台正在运行！").setContentText("距离国考还有114天，不要摸鱼哦！").setSmallIcon(android.R.drawable.ic_dialog_info).build()
         } else {
-            Notification.Builder(this).setContentTitle("辰夕正在后台看着你").setSmallIcon(android.R.drawable.ic_dialog_info).build()
+            Notification.Builder(this).setContentTitle("桌宠后台正在运行！").setContentText("距离国考还有114天，不要摸鱼哦！").setSmallIcon(android.R.drawable.ic_dialog_info).build()
         }
         startForeground(1, notification)
     }
@@ -57,40 +57,48 @@ class AppMonitorService : Service() {
     private fun setupOverlay() {
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         val params = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else WindowManager.LayoutParams.TYPE_PHONE,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
             PixelFormat.TRANSLUCENT
         )
-        params.gravity = Gravity.TOP or Gravity.END
+        params.gravity = Gravity.TOP or Gravity.START
+        params.x = 0
         params.y = 200
 
-        webView = WebView(this).apply {
-            setBackgroundColor(Color.TRANSPARENT)
-            settings.javaScriptEnabled = true
-            webViewClient = WebViewClient()
-            loadUrl("file:///android_asset/pet.html")
+        floatingView = TextView(this).apply {
+            text = "辰夕: 正在连接世界..."
+            setTextColor(Color.WHITE)
+            setBackgroundColor(Color.parseColor("#88000000"))
+            setPadding(20, 20, 20, 20)
+            textSize = 16f
         }
 
+        var initialX = 0
         var initialY = 0
+        var initialTouchX = 0f
         var initialTouchY = 0f
-        webView.setOnTouchListener { _, event ->
+
+        floatingView.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
+                    initialX = params.x
                     initialY = params.y
+                    initialTouchX = event.rawX
                     initialTouchY = event.rawY
                     true
                 }
                 MotionEvent.ACTION_MOVE -> {
+                    params.x = initialX + (event.rawX - initialTouchX).toInt()
                     params.y = initialY + (event.rawY - initialTouchY).toInt()
-                    windowManager.updateViewLayout(webView, params)
+                    windowManager.updateViewLayout(floatingView, params)
                     true
                 }
                 else -> false
             }
         }
-        windowManager.addView(webView, params)
+        windowManager.addView(floatingView, params)
     }
 
     private fun startLoops() {
@@ -110,11 +118,9 @@ class AppMonitorService : Service() {
                         val jsonArray = JSONArray(response)
                         if (jsonArray.length() > 0) {
                             val obj = jsonArray.getJSONObject(0)
-                            val msg = obj.optString("message", "我在后台陪着你")
-                            val mood = obj.optString("mood", "normal")
-                            val color = if (mood == "warning" || mood == "angry") "#e06c75" else "#98c379"
+                            val msg = obj.optString("message", "辰夕: 我在后台陪着你")
                             handler.post {
-                                webView.evaluateJavascript("updateState('$msg', '$color')", null)
+                                floatingView.text = msg
                             }
                         }
                     }
@@ -166,8 +172,8 @@ class AppMonitorService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         isRunning = false
-        if (::windowManager.isInitialized && ::webView.isInitialized) {
-            windowManager.removeView(webView)
+        if (::windowManager.isInitialized && ::floatingView.isInitialized) {
+            windowManager.removeView(floatingView)
         }
     }
 
